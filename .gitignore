@@ -1,4 +1,5 @@
-
+# Coverage files
+*/coverage.out
 
 # Internals private documentation
 ./docs/internals.md
