@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	httpRouter "github.com/javierhwulin/finance-tracker/internal/http"
 )
 
 func TestHealthCheckHandler(t *testing.T) {
@@ -13,8 +15,8 @@ func TestHealthCheckHandler(t *testing.T) {
 		t.Fatal(err)
 	}
 	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(healthCheckHandler)
-	handler.ServeHTTP(rr, req)
+	httpRouter.NewRouter().ServeHTTP(rr, req)
+
 	if status := rr.Code; status != http.StatusOK {
 		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
 	}
@@ -26,7 +28,7 @@ func TestHealthCheckHandler(t *testing.T) {
 	if response["status"] != "ok" {
 		t.Errorf("handler returned unexpected body: got %v want %v", response["status"], "ok")
 	}
-	if response["version"] != version {
-		t.Errorf("handler returned unexpected body: got %v want %v", response["version"], version)
+	if response["version"] != httpRouter.Version {
+		t.Errorf("handler returned unexpected body: got %v want %v", response["version"], httpRouter.Version)
 	}
 }
