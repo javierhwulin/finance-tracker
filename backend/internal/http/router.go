@@ -4,15 +4,19 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/javierhwulin/finance-tracker/internal/app"
 	"github.com/javierhwulin/finance-tracker/internal/config"
 )
 
 // NewRouter creates and configures the HTTP router with all routes
-func NewRouter(cfg *config.Config) http.Handler {
+func NewRouter(cfg *config.Config, app *app.App) http.Handler {
 	mux := http.NewServeMux()
 
 	// Health check endpoint
 	mux.HandleFunc("GET /api/health", healthCheckHandler(cfg))
+
+	// User endpoints
+	mux.HandleFunc("POST /api/users", CreateUserHandler(app.UserRepository))
 
 	return mux
 }
