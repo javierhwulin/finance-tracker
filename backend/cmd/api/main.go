@@ -1,20 +1,31 @@
 package main
 
 import (
+	"fmt"
 	"log/slog"
 	"net/http"
 	"os"
 
+	"github.com/javierhwulin/finance-tracker/internal/config"
 	httpRouter "github.com/javierhwulin/finance-tracker/internal/http"
 )
 
 func main() {
+	// Load configuration
+	cfg := config.NewConfig()
+
+	// Initialize logger
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
 
-	router := httpRouter.NewRouter()
+	// Create router with dependencies
+	router := httpRouter.NewRouter(cfg)
 
-	logger.Info("Starting server", "port", ":8080")
-	if err := http.ListenAndServe(":8080", router); err != nil {
-		logger.Error("Error init server", "error", err)
+	// Start server
+	addr := fmt.Sprintf(":%s", cfg.Port)
+	logger.Info("Starting server", "port", addr, "env", cfg.Env, "version", cfg.Version)
+
+	if err := http.ListenAndServe(addr, router); err != nil {
+		logger.Error("Error starting server", "error", err)
+		os.Exit(1)
 	}
 }
