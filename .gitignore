@@ -1,5 +1,8 @@
 # Coverage files
 */coverage.out
 
+# Cursor rules
+.cursor/rules/
+
 # Internals private documentation
 docs/internals.md
