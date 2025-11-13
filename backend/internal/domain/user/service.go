@@ -11,10 +11,16 @@ func NewUser(email, password string) (*User, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	hashedPassword, err := HashPassword(password)
+	if err != nil {
+		return nil, err
+	}
+
 	user := &User{
 		ID:        id,
 		Email:     email,
-		Password:  password,
+		Password:  hashedPassword,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
@@ -22,4 +28,11 @@ func NewUser(email, password string) (*User, error) {
 		return nil, err
 	}
 	return user, nil
+}
+
+func Authenticate(user *User, password string) error {
+	if err := user.ComparePassword(password, user.Password); err != nil {
+		return err
+	}
+	return nil
 }
