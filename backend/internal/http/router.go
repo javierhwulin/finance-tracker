@@ -4,9 +4,13 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/javierhwulin/finance-tracker/internal/app"
 	"github.com/javierhwulin/finance-tracker/internal/config"
 )
+
+// Reusable validator instance
+var validate = validator.New()
 
 // NewRouter creates and configures the HTTP router with all routes
 func NewRouter(cfg *config.Config, app *app.App) http.Handler {

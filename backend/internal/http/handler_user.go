@@ -4,13 +4,9 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/go-playground/validator/v10"
 	"github.com/javierhwulin/finance-tracker/internal/domain/user"
 	"github.com/javierhwulin/finance-tracker/internal/http/dto"
 )
-
-// Reusable validator instance
-var validate = validator.New()
 
 // CreateUserHandler handles user creation requests
 func CreateUserHandler(userRepository user.UserRepository) http.HandlerFunc {
