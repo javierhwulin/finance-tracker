@@ -26,7 +26,7 @@ func main() {
 	application := app.NewApp(userRepo)
 
 	// Create router with dependencies
-	router := httpRouter.NewRouter(cfg, application)
+	router := httpRouter.NewRouter(cfg, application, logger)
 
 	// Start server
 	addr := fmt.Sprintf(":%s", cfg.Port)

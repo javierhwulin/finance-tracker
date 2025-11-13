@@ -3,8 +3,10 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"log/slog"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
 
 	"github.com/javierhwulin/finance-tracker/internal/app"
@@ -25,7 +27,7 @@ func TestHealthCheckHandler(t *testing.T) {
 	// Setup test dependencies
 	userRepo := repo.NewUserMemoryRepository()
 	application := app.NewApp(userRepo)
-	router := httpRouter.NewRouter(cfg, application)
+	router := httpRouter.NewRouter(cfg, application, slog.New(slog.NewTextHandler(os.Stdout, nil)))
 
 	req, err := http.NewRequest("GET", "/api/health", nil)
 	if err != nil {
@@ -59,7 +61,7 @@ func TestCreateUser(t *testing.T) {
 	cfg := &config.Config{Version: "1.0.0", Port: "8080", Env: "test"}
 	userRepo := repo.NewUserMemoryRepository()
 	application := app.NewApp(userRepo)
-	router := httpRouter.NewRouter(cfg, application)
+	router := httpRouter.NewRouter(cfg, application, slog.New(slog.NewTextHandler(os.Stdout, nil)))
 
 	// Test valid user creation
 	t.Run("valid user", func(t *testing.T) {
