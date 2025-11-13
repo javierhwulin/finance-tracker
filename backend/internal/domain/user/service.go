@@ -31,7 +31,7 @@ func NewUser(email, password string) (*User, error) {
 }
 
 func Authenticate(user *User, password string) error {
-	if err := user.ComparePassword(password, user.Password); err != nil {
+	if err := ComparePassword(password, user.Password); err != nil {
 		return err
 	}
 	return nil
